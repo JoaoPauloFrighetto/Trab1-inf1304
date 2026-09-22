@@ -1,0 +1,59 @@
+Exemplo de logs de execução (trechos reais, os mesmos citados no relatório em
+docs/1_Relatorio_Trabalho1.docx, seção "Testes de falha").
+
+Para gerar logs completos e atualizados, rode o sistema e os scripts de simulação
+de falha (veja docs/2_Guia_Execucao_Validacao.docx):
+
+  docker compose build
+  ./start.sh
+  ./scripts/falha_broker.sh kafka-2
+  ./scripts/falha_consumidor.sh kill
+  ./scripts/falha_consumidor.sh stop
+
+================================================================================
+1) Falha de broker (./scripts/falha_broker.sh kafka-2)
+================================================================================
+
+================ DERRUBANDO kafka-2 (18:58:54) ================
+[2026-09-21 21:59:26,753] WARN Couldn't resolve server kafka-2:9092 from bootstrap.servers as DNS resolution failed for kafka-2 (org.apache.kafka.clients.ClientUtils)
+2026-09-21 21:59:21.885 INFO SensorProducer - [STATS] sensor=sensor-9caa6b672dc8 setor=linha-producao enviadas=831 entregues=830 falhas=0
+2026-09-21 21:59:26.890 INFO SensorProducer - [STATS] sensor=sensor-9caa6b672dc8 setor=linha-producao enviadas=841 entregues=840 falhas=0
+2026-09-21 21:59:27.354 INFO SensorProducer - [STATS] sensor=sensor-482f699b5e27 setor=linha-producao enviadas=841 entregues=840 falhas=0
+================ RECUPERAÇÃO: religando kafka-2 (18:59:32) ================
+
+================================================================================
+2) Falha de consumidor - queda abrupta (./scripts/falha_consumidor.sh kill)
+================================================================================
+
+================ DERRUBANDO smartfactory-kafka-sensor-consumer-1 (modo=kill) (19:02:05) ================
+================ EVIDÊNCIA NOS LOGS (linhas [REBALANCE] desde a falha) ================
+2026-09-21 22:02:17.050 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-d1eb4b628c57 PERDEU particoes=[2, 5]
+2026-09-21 22:02:17.059 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-d1eb4b628c57 RECEBEU particoes=[1, 3, 5]
+2026-09-21 22:02:15.400 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-98e1a3df50f0 PERDEU particoes=[0, 3]
+2026-09-21 22:02:17.059 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-98e1a3df50f0 RECEBEU particoes=[0, 2, 4]
+
+================================================================================
+3) Falha de consumidor - encerramento limpo (./scripts/falha_consumidor.sh stop)
+================================================================================
+
+================ DERRUBANDO smartfactory-kafka-sensor-consumer-1 (modo=stop) (19:03:48) ================
+================ EVIDÊNCIA NOS LOGS (linhas [REBALANCE] desde a falha) ================
+2026-09-21 22:03:48.276 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-c0aa95a89b68 PERDEU particoes=[1, 4]
+2026-09-21 22:03:50.097 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-d1eb4b628c57 PERDEU particoes=[2, 5]
+2026-09-21 22:03:50.101 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-d1eb4b628c57 RECEBEU particoes=[1, 3, 5]
+2026-09-21 22:03:50.089 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-98e1a3df50f0 PERDEU particoes=[0, 3]
+2026-09-21 22:03:50.101 WARN SensorConsumer - [REBALANCE] consumidor=consumidor-98e1a3df50f0 RECEBEU particoes=[0, 2, 4]
+
+================================================================================
+4) Exemplo de alertas registrados (logs/alertas.jsonl, gerado em tempo de execução)
+================================================================================
+
+{"processadoEm":1790027553398,"consumidor":"consumidor-c0aa95a89b68","particao":4,"offset":8,"sensorId":"sensor-ecea9084327b","setor":"linha-producao","alertas":"ATENCAO:temperatura=89.38(limite=80.00)"}
+{"processadoEm":1790027553405,"consumidor":"consumidor-98e1a3df50f0","particao":3,"offset":0,"sensorId":"sensor-9caa6b672dc8","setor":"linha-producao","alertas":"ATENCAO:energia=619.51(limite=500.00)"}
+
+================================================================================
+5) Validação automática (./scripts/validar.sh)
+================================================================================
+
+[ OK ] T8 84 alertas gravados em logs/alertas.jsonl
+RESULTADO: TODOS OS TESTES PASSARAM

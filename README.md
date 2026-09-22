@@ -33,5 +33,5 @@ producer-service/   sensores (produtores Kafka, Java + Maven)
 consumer-service/   processadores (consumidores Kafka, Java + Maven)
 docker-compose.yaml cluster Kafka (3 brokers), criação do tópico, sensores e consumidores
 scripts/             simulação de falhas, elasticidade, validação, coleta de logs
-logs/                evidências de execução (alertas gravados, logs dos testes de falha)
+logs/                logs/exemplo-logs.txt — exemplo de evidência (os testes reais geram mais aqui)
 ```

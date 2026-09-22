@@ -1,10 +1,10 @@
 # Build do Maven (gerado dentro do Docker; não precisa ser versionado)
 target/
 
-# Ferramenta local usada só para gerar os documentos .docx/.txt (não faz parte da entrega)
-docs/gerar/node_modules/
-docs/gerar/package.json
-docs/gerar/package-lock.json
+# Logs gerados em tempo de execução (mantemos só logs/exemplo-logs.txt, versionado)
+logs/*.log
+logs/*.jsonl
+logs/execucao-*/
 
 # Arquivos de trava do Word (abertos ao editar os .docx)
 ~$*.docx

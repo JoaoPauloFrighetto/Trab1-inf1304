@@ -1,0 +1,298 @@
+
+================ ESCALANDO CONSUMIDORES PARA 1 (19:05:00) ================
+ Container smartfactory-kafka-sensor-consumer-1 Running 
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-consumer-2 Stopping 
+ Container smartfactory-kafka-sensor-consumer-3 Stopping 
+ Container smartfactory-kafka-sensor-consumer-2 Stopped 
+ Container smartfactory-kafka-sensor-consumer-2 Removing 
+ Container smartfactory-kafka-sensor-consumer-2 Removed 
+ Container smartfactory-kafka-sensor-consumer-3 Stopped 
+ Container smartfactory-kafka-sensor-consumer-3 Removing 
+ Container smartfactory-kafka-sensor-consumer-3 Removed 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+
+================ GRUPO processadores-sensores (partição -> consumidor) ================
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG  CONSUMER-ID
+processadores-sensores  dados-sensores  5          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  4          1572            1572            0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  1          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  0          1572            1572            0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  3          1573            1573            0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  2          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+
+================ ESCALANDO CONSUMIDORES PARA 2 (19:05:33) ================
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-consumer-1 Running 
+ Container smartfactory-kafka-sensor-consumer-2 Creating 
+ Container smartfactory-kafka-sensor-consumer-2 Created 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+ Container smartfactory-kafka-sensor-consumer-2 Starting 
+ Container smartfactory-kafka-sensor-consumer-2 Started 
+
+================ GRUPO processadores-sensores (partição -> consumidor) ================
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG  CONSUMER-ID
+processadores-sensores  dados-sensores  4          1636            1636            0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  0          1636            1636            0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  2          0               0               0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  5          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  1          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  3          1637            1637            0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+
+================ ESCALANDO CONSUMIDORES PARA 3 (19:06:05) ================
+ Container smartfactory-kafka-sensor-consumer-1 Running 
+ Container smartfactory-kafka-sensor-consumer-2 Running 
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-consumer-3 Creating 
+ Container smartfactory-kafka-sensor-consumer-3 Created 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+ Container smartfactory-kafka-sensor-consumer-3 Starting 
+ Container smartfactory-kafka-sensor-consumer-3 Started 
+
+================ GRUPO processadores-sensores (partição -> consumidor) ================
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG  CONSUMER-ID
+processadores-sensores  dados-sensores  0          1700            1700            0    consumidor-07b7cd127114-d319ab62-3f86-4932-a636-78c6f8ceb22d
+processadores-sensores  dados-sensores  3          1700            1701            1    consumidor-07b7cd127114-d319ab62-3f86-4932-a636-78c6f8ceb22d
+processadores-sensores  dados-sensores  4          1700            1700            0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  1          0               0               0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  5          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  2          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+
+================ ESCALANDO CONSUMIDORES PARA 6 (19:06:37) ================
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-consumer-1 Running 
+ Container smartfactory-kafka-sensor-consumer-2 Running 
+ Container smartfactory-kafka-sensor-consumer-3 Running 
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-sensor-consumer-6 Creating 
+ Container smartfactory-kafka-sensor-consumer-4 Creating 
+ Container smartfactory-kafka-sensor-consumer-5 Creating 
+ Container smartfactory-kafka-sensor-consumer-5 Created 
+ Container smartfactory-kafka-sensor-consumer-4 Created 
+ Container smartfactory-kafka-sensor-consumer-6 Created 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+ Container smartfactory-kafka-sensor-consumer-4 Starting 
+ Container smartfactory-kafka-sensor-consumer-4 Started 
+ Container smartfactory-kafka-sensor-consumer-5 Starting 
+ Container smartfactory-kafka-sensor-consumer-5 Started 
+ Container smartfactory-kafka-sensor-consumer-6 Starting 
+ Container smartfactory-kafka-sensor-consumer-6 Started 
+
+================ GRUPO processadores-sensores (partição -> consumidor) ================
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG  CONSUMER-ID
+processadores-sensores  dados-sensores  0          1765            1765            0    consumidor-07b7cd127114-d319ab62-3f86-4932-a636-78c6f8ceb22d
+processadores-sensores  dados-sensores  4          1766            1766            0    consumidor-f4800a19bf20-af471b37-5315-475a-bbf7-1aa7bddae4e2
+processadores-sensores  dados-sensores  2          0               0               0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  3          1766            1766            0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  1          0               0               0    consumidor-34535a7e28ac-bb6a83b5-089d-4e0c-afc7-ccbc04ccda05
+processadores-sensores  dados-sensores  5          0               0               0    consumidor-fabd0f4656fb-79e1543b-54f3-4ee6-be28-f0a4ee25b94e
+
+================ ESCALANDO CONSUMIDORES PARA 8 (19:07:10) ================
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-consumer-1 Running 
+ Container smartfactory-kafka-sensor-consumer-2 Running 
+ Container smartfactory-kafka-sensor-consumer-3 Running 
+ Container smartfactory-kafka-sensor-consumer-4 Running 
+ Container smartfactory-kafka-sensor-consumer-5 Running 
+ Container smartfactory-kafka-sensor-consumer-6 Running 
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-sensor-consumer-8 Creating 
+ Container smartfactory-kafka-sensor-consumer-7 Creating 
+ Container smartfactory-kafka-sensor-consumer-8 Created 
+ Container smartfactory-kafka-sensor-consumer-7 Created 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+ Container smartfactory-kafka-sensor-consumer-7 Starting 
+ Container smartfactory-kafka-sensor-consumer-7 Started 
+ Container smartfactory-kafka-sensor-consumer-8 Starting 
+ Container smartfactory-kafka-sensor-consumer-8 Started 
+
+================ GRUPO processadores-sensores (partição -> consumidor) ================
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG  CONSUMER-ID
+processadores-sensores  dados-sensores  0          1830            1830            0    consumidor-07b7cd127114-d319ab62-3f86-4932-a636-78c6f8ceb22d
+processadores-sensores  dados-sensores  4          1830            1830            0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  2          0               0               0    consumidor-30f84d85a0dc-12a5aaf0-dfa3-49f0-8cd3-7db35f80534d
+processadores-sensores  dados-sensores  5          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  1          0               0               0    consumidor-1c42e2b7e207-773de35e-ff69-4443-b952-f00c0dd0970d
+processadores-sensores  dados-sensores  3          1831            1831            0    consumidor-34535a7e28ac-bb6a83b5-089d-4e0c-afc7-ccbc04ccda05
+
+Observação: com 8 consumidores e 6 partições, 2 consumidores ficam ociosos
+(o paralelismo máximo do grupo é o número de partições).
+
+================ ESCALANDO SENSORES PARA 9 (19:07:42) ================
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-producer-1 Running 
+ Container smartfactory-kafka-sensor-producer-2 Running 
+ Container smartfactory-kafka-sensor-producer-3 Running 
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-sensor-producer-9 Creating 
+ Container smartfactory-kafka-sensor-producer-5 Creating 
+ Container smartfactory-kafka-sensor-producer-4 Creating 
+ Container smartfactory-kafka-sensor-producer-8 Creating 
+ Container smartfactory-kafka-sensor-producer-7 Creating 
+ Container smartfactory-kafka-sensor-producer-6 Creating 
+ Container smartfactory-kafka-sensor-producer-4 Created 
+ Container smartfactory-kafka-sensor-producer-8 Created 
+ Container smartfactory-kafka-sensor-producer-7 Created 
+ Container smartfactory-kafka-sensor-producer-9 Created 
+ Container smartfactory-kafka-sensor-producer-6 Created 
+ Container smartfactory-kafka-sensor-producer-5 Created 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+ Container smartfactory-kafka-sensor-producer-6 Starting 
+ Container smartfactory-kafka-sensor-producer-6 Started 
+ Container smartfactory-kafka-sensor-producer-5 Starting 
+ Container smartfactory-kafka-sensor-producer-5 Started 
+ Container smartfactory-kafka-sensor-producer-9 Starting 
+ Container smartfactory-kafka-sensor-producer-9 Started 
+ Container smartfactory-kafka-sensor-producer-7 Starting 
+ Container smartfactory-kafka-sensor-producer-7 Started 
+ Container smartfactory-kafka-sensor-producer-4 Starting 
+ Container smartfactory-kafka-sensor-producer-4 Started 
+ Container smartfactory-kafka-sensor-producer-8 Starting 
+ Container smartfactory-kafka-sensor-producer-8 Started 
+2026-09-21 22:08:07.821 INFO SensorConsumer - [STATS] consumidor=consumidor-c0aa95a89b68 processadas=554 alertas=50 invalidas=0 particoes=[5]
+2026-09-21 22:08:01.511 INFO SensorConsumer - [STATS] consumidor=consumidor-1c42e2b7e207 processadas=27 alertas=3 invalidas=0 particoes=[1]
+2026-09-21 22:07:54.799 INFO SensorConsumer - [STATS] consumidor=consumidor-34535a7e28ac processadas=88 alertas=16 invalidas=0 particoes=[3]
+2026-09-21 22:08:01.575 INFO SensorConsumer - [STATS] consumidor=consumidor-5f3b04119deb processadas=275 alertas=28 invalidas=0 particoes=[4]
+2026-09-21 22:08:06.512 INFO SensorConsumer - [STATS] consumidor=consumidor-1c42e2b7e207 processadas=37 alertas=3 invalidas=0 particoes=[1]
+2026-09-21 22:08:06.577 INFO SensorConsumer - [STATS] consumidor=consumidor-5f3b04119deb processadas=285 alertas=28 invalidas=0 particoes=[4]
+2026-09-21 22:07:59.802 INFO SensorConsumer - [STATS] consumidor=consumidor-34535a7e28ac processadas=108 alertas=23 invalidas=0 particoes=[3]
+2026-09-21 22:08:04.806 INFO SensorConsumer - [STATS] consumidor=consumidor-34535a7e28ac processadas=128 alertas=25 invalidas=0 particoes=[3]
+
+================ VOLTANDO AO ESTADO INICIAL ================
+ Container smartfactory-kafka-kafka-2-1 Running 
+ Container smartfactory-kafka-kafka-3-1 Running 
+ Container smartfactory-kafka-sensor-producer-1 Running 
+ Container smartfactory-kafka-sensor-producer-2 Running 
+ Container smartfactory-kafka-sensor-producer-3 Running 
+ Container smartfactory-kafka-sensor-consumer-1 Running 
+ Container smartfactory-kafka-sensor-consumer-2 Running 
+ Container smartfactory-kafka-sensor-consumer-3 Running 
+ Container smartfactory-kafka-kafka-1-1 Running 
+ Container smartfactory-kafka-sensor-consumer-7 Stopping 
+ Container smartfactory-kafka-sensor-consumer-6 Stopping 
+ Container smartfactory-kafka-sensor-producer-6 Stopping 
+ Container smartfactory-kafka-sensor-producer-4 Stopping 
+ Container smartfactory-kafka-sensor-consumer-8 Stopping 
+ Container smartfactory-kafka-sensor-consumer-5 Stopping 
+ Container smartfactory-kafka-sensor-producer-9 Stopping 
+ Container smartfactory-kafka-sensor-producer-7 Stopping 
+ Container smartfactory-kafka-sensor-consumer-4 Stopping 
+ Container smartfactory-kafka-sensor-producer-8 Stopping 
+ Container smartfactory-kafka-sensor-producer-5 Stopping 
+ Container smartfactory-kafka-sensor-producer-6 Stopped 
+ Container smartfactory-kafka-sensor-producer-6 Removing 
+ Container smartfactory-kafka-sensor-producer-6 Removed 
+ Container smartfactory-kafka-sensor-producer-5 Stopped 
+ Container smartfactory-kafka-sensor-producer-5 Removing 
+ Container smartfactory-kafka-sensor-producer-5 Removed 
+ Container smartfactory-kafka-sensor-consumer-4 Stopped 
+ Container smartfactory-kafka-sensor-consumer-4 Removing 
+ Container smartfactory-kafka-sensor-consumer-4 Removed 
+ Container smartfactory-kafka-sensor-consumer-8 Stopped 
+ Container smartfactory-kafka-sensor-consumer-8 Removing 
+ Container smartfactory-kafka-sensor-consumer-8 Removed 
+ Container smartfactory-kafka-sensor-producer-9 Stopped 
+ Container smartfactory-kafka-sensor-producer-9 Removing 
+ Container smartfactory-kafka-sensor-producer-9 Removed 
+ Container smartfactory-kafka-sensor-consumer-7 Stopped 
+ Container smartfactory-kafka-sensor-consumer-7 Removing 
+ Container smartfactory-kafka-sensor-consumer-7 Removed 
+ Container smartfactory-kafka-sensor-producer-8 Stopped 
+ Container smartfactory-kafka-sensor-producer-8 Removing 
+ Container smartfactory-kafka-sensor-producer-8 Removed 
+ Container smartfactory-kafka-sensor-producer-4 Stopped 
+ Container smartfactory-kafka-sensor-producer-4 Removing 
+ Container smartfactory-kafka-sensor-producer-4 Removed 
+ Container smartfactory-kafka-sensor-consumer-5 Stopped 
+ Container smartfactory-kafka-sensor-consumer-5 Removing 
+ Container smartfactory-kafka-sensor-consumer-5 Removed 
+ Container smartfactory-kafka-sensor-producer-7 Stopped 
+ Container smartfactory-kafka-sensor-producer-7 Removing 
+ Container smartfactory-kafka-sensor-producer-7 Removed 
+ Container smartfactory-kafka-sensor-consumer-6 Stopped 
+ Container smartfactory-kafka-sensor-consumer-6 Removing 
+ Container smartfactory-kafka-sensor-consumer-6 Removed 
+ Container smartfactory-kafka-kafka-2-1 Waiting 
+ Container smartfactory-kafka-kafka-3-1 Waiting 
+ Container smartfactory-kafka-kafka-1-1 Waiting 
+ Container smartfactory-kafka-kafka-2-1 Healthy 
+ Container smartfactory-kafka-kafka-1-1 Healthy 
+ Container smartfactory-kafka-kafka-3-1 Healthy 
+ Container smartfactory-kafka-kafka-init-1 Starting 
+ Container smartfactory-kafka-kafka-init-1 Started 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Waiting 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+ Container smartfactory-kafka-kafka-init-1 Exited 
+
+================ GRUPO processadores-sensores (partição -> consumidor) ================
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG  CONSUMER-ID
+processadores-sensores  dados-sensores  0          1979            1979            0    consumidor-07b7cd127114-d319ab62-3f86-4932-a636-78c6f8ceb22d
+processadores-sensores  dados-sensores  3          1981            1981            0    consumidor-07b7cd127114-d319ab62-3f86-4932-a636-78c6f8ceb22d
+processadores-sensores  dados-sensores  4          1938            1938            0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  1          42              42              0    consumidor-5f3b04119deb-621b8f6f-9fc7-49bd-9c74-4b834681866c
+processadores-sensores  dados-sensores  5          123             123             0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb
+processadores-sensores  dados-sensores  2          0               0               0    consumidor-c0aa95a89b68-417dd602-5832-414b-bf3f-1325accbc0bb

@@ -1,0 +1,19 @@
+{
+  "name": "SmartFactory Lab - Kafka",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    // Dá acesso a "docker" e "docker compose" dentro do Codespace (Docker-in-Docker),
+    // sem depender do comportamento padrão da imagem do GitHub.
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true,
+      "version": "latest"
+    }
+  },
+  // Corrige o bit de execução dos scripts (o Git no Windows nem sempre preserva isso)
+  // e confirma que o Docker subiu antes de liberar o terminal.
+  "postCreateCommand": "chmod +x start.sh stop.sh scripts/*.sh && docker version",
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb"
+  }
+}

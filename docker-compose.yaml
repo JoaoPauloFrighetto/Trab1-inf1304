@@ -159,9 +159,3 @@ volumes:
 networks:
   int-network:
     driver: bridge
-    # MTU reduzido: em Docker-in-Docker hospedado em nuvem (ex.: GitHub Codespaces), a rede
-    # "de fora" costuma aceitar pacotes menores que o padrão de 1500 bytes do Docker. Sem isso,
-    # pacotes grandes demais (como o registro do broker junto ao controller) somem pelo caminho,
-    # e o Kafka falha com "unable to register with the controller quorum" / timeout.
-    driver_opts:
-      com.docker.network.driver.mtu: 1400

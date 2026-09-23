@@ -30,6 +30,9 @@ consumidores, seguindo o padrão usado em aula no exemplo do chat com Kafka.
   - Docker Desktop instalado e em execução.
   - Git Bash (Windows) ou um terminal Linux/macOS, para rodar os scripts `.sh`.
   - Não é necessário instalar Java nem Maven: a compilação acontece dentro do Docker.
+  - Alternativa sem instalar nada localmente: o projeto também roda num GitHub Codespace
+    deste repositório (usa a feature docker-outside-of-docker, já configurada em
+    .devcontainer/devcontainer.json) — testado e validado com o mesmo ./scripts/validar.sh.
 
 2.2 Passo a passo
 -----------------

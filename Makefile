@@ -1,5 +1,5 @@
 # Makefile do SmartFactory Lab (use "make <alvo>"). No Windows, rode em Git Bash ou WSL.
-.PHONY: help build up down clean status logs-consumidores logs-sensores rebalanco \
+.PHONY: build up down clean status logs-consumidores logs-sensores rebalanco \
         escalar-consumidores escalar-sensores falha-broker falha-consumidor \
         falha-consumidor-limpo elasticidade validar coletar-logs teste-unitario
 

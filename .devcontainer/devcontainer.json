@@ -4,8 +4,12 @@
   "features": {
     // Dá acesso a "docker" e "docker compose" dentro do Codespace (Docker-in-Docker),
     // sem depender do comportamento padrão da imagem do GitHub.
+    // moby:false instala os pacotes oficiais docker-ce em vez do moby-cli do Ubuntu —
+    // necessário porque a versão de Ubuntu da imagem "base:ubuntu" às vezes é nova demais
+    // e ainda não tem o pacote moby-cli disponível (erro visto: "not supported on ubuntu
+    // 'resolute' because 'moby-cli' ... are not available").
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "moby": true,
+      "moby": false,
       "version": "latest"
     }
   },

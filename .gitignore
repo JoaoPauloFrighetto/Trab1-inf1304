@@ -6,10 +6,6 @@ logs/*.log
 logs/*.jsonl
 logs/execucao-*/
 
-# Arquivos de trava do Word (abertos ao editar os .docx)
-~$*.docx
-~$*.doc
-
 # Diversos
 .DS_Store
 Thumbs.db

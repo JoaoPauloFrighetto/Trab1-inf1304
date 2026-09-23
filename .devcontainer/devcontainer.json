@@ -2,24 +2,23 @@
   "name": "SmartFactory Lab - Kafka",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    // Dá acesso a "docker" e "docker compose" dentro do Codespace (Docker-in-Docker),
-    // sem depender do comportamento padrão da imagem do GitHub.
-    // moby:false instala os pacotes oficiais docker-ce em vez do moby-cli do Ubuntu —
-    // necessário porque a versão de Ubuntu da imagem "base:ubuntu" às vezes é nova demais
-    // e ainda não tem o pacote moby-cli disponível (erro visto: "not supported on ubuntu
-    // 'resolute' because 'moby-cli' ... are not available").
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+    // Docker-outside-of-Docker: em vez de rodar um daemon Docker "aninhado" dentro do
+    // container do Codespace (docker-in-docker), essa feature conecta direto ao Docker que
+    // já roda por trás da VM do Codespace (monta /var/run/docker.sock do host). Os containers
+    // do projeto nascem como "irmãos" do devcontainer, na rede normal do host — evita o
+    // isolamento de rede extra do docker-in-docker, que travou a comunicação entre os
+    // containers do cluster Kafka (brokers nunca conseguiam se conectar entre si).
+    // moby:false instala os pacotes oficiais docker-ce em vez do moby-cli do Ubuntu (o
+    // mesmo motivo de antes: a versão de Ubuntu da imagem "base:ubuntu" pode ser nova
+    // demais para ter o pacote moby-cli disponível).
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
       "moby": false,
       "version": "latest"
     }
   },
   // Só corrige o bit de execução dos scripts (o Git no Windows nem sempre preserva isso).
-  // "|| true" garante que este comando nunca falha a criação do Codespace, mesmo se o
-  // Docker-in-Docker ainda não tiver terminado de subir nesse instante.
+  // "|| true" garante que este comando nunca falha a criação do Codespace.
   "postCreateCommand": "chmod +x start.sh stop.sh scripts/*.sh || true",
-  // 2 vCPU / 4 GB é o mínimo confortável para o cenário padrão (3 sensores + 3 consumidores).
-  // Para o teste de elasticidade (até 8 consumidores + 9 sensores), escolha uma máquina maior
-  // manualmente na hora de criar o Codespace, se sua conta/plano permitir.
   "hostRequirements": {
     "cpus": 2,
     "memory": "4gb"

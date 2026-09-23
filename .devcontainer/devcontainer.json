@@ -9,11 +9,15 @@
       "version": "latest"
     }
   },
-  // Corrige o bit de execução dos scripts (o Git no Windows nem sempre preserva isso)
-  // e confirma que o Docker subiu antes de liberar o terminal.
-  "postCreateCommand": "chmod +x start.sh stop.sh scripts/*.sh && docker version",
+  // Só corrige o bit de execução dos scripts (o Git no Windows nem sempre preserva isso).
+  // "|| true" garante que este comando nunca falha a criação do Codespace, mesmo se o
+  // Docker-in-Docker ainda não tiver terminado de subir nesse instante.
+  "postCreateCommand": "chmod +x start.sh stop.sh scripts/*.sh || true",
+  // 2 vCPU / 4 GB é o mínimo confortável para o cenário padrão (3 sensores + 3 consumidores).
+  // Para o teste de elasticidade (até 8 consumidores + 9 sensores), escolha uma máquina maior
+  // manualmente na hora de criar o Codespace, se sua conta/plano permitir.
   "hostRequirements": {
-    "cpus": 4,
-    "memory": "8gb"
+    "cpus": 2,
+    "memory": "4gb"
   }
 }

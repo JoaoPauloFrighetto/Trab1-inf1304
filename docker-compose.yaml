@@ -1,12 +1,6 @@
 # SmartFactory Lab - Monitoramento de sensores com Kafka (cluster de 3 brokers em modo KRaft)
 # Todos os valores configuráveis vêm do arquivo .env (sem constantes hard-coded).
 
-# ============================================================================
-# BLOCOS REUTILIZÁVEIS (extensões "x-", ignoradas pelo Compose; servem só para
-# não repetir a mesma configuração nos 3 brokers). Cada bloco recebe uma âncora
-# YAML (&nome) e é "colado" depois com <<: *nome dentro de cada serviço.
-# ============================================================================
-
 # Configuração comum aos três brokers (cada um também é controller: broker,controller)
 x-kafka-comum: &kafka-comum
   image: ${KAFKA_IMAGE}          # mesma imagem oficial do Kafka para os 3 brokers
@@ -50,9 +44,7 @@ x-kafka-env: &kafka-env
   KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"             # ninguém cria tópico "sem querer" só por publicar nele
   KAFKA_HEAP_OPTS: -Xms256m -Xmx512m                   # limite de memória da JVM do próprio Kafka
 
-# ============================================================================
-# SERVIÇOS (os containers de verdade)
-# ============================================================================
+  
 services:
   # ---- Cluster Kafka: 3 brokers, cada um herdando os dois blocos acima ----
   kafka-1:
@@ -159,20 +151,11 @@ services:
     networks:
       - int-network
 
-# ============================================================================
-# VOLUMES nomeados: onde cada broker persiste os dados em disco.
-# Sem isso, os dados do Kafka sumiriam toda vez que o container fosse recriado.
-# ============================================================================
 volumes:
   kafka-1-data:
   kafka-2-data:
   kafka-3-data:
 
-# ============================================================================
-# REDE: todos os serviços conversam entre si por aqui, usando o nome do
-# serviço como endereço (ex: "kafka-1", "kafka-2"). "bridge" é o tipo padrão
-# de rede isolada e privada que o Docker cria para um projeto Compose.
-# ============================================================================
 networks:
   int-network:
     driver: bridge

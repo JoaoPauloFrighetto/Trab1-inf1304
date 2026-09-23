@@ -1,53 +1,69 @@
 # SmartFactory Lab - Monitoramento de sensores com Kafka (cluster de 3 brokers em modo KRaft)
 # Todos os valores configuráveis vêm do arquivo .env (sem constantes hard-coded).
 
+# ============================================================================
+# BLOCOS REUTILIZÁVEIS (extensões "x-", ignoradas pelo Compose; servem só para
+# não repetir a mesma configuração nos 3 brokers). Cada bloco recebe uma âncora
+# YAML (&nome) e é "colado" depois com <<: *nome dentro de cada serviço.
+# ============================================================================
+
 # Configuração comum aos três brokers (cada um também é controller: broker,controller)
 x-kafka-comum: &kafka-comum
-  image: ${KAFKA_IMAGE}
+  image: ${KAFKA_IMAGE}          # mesma imagem oficial do Kafka para os 3 brokers
   networks:
-    - int-network
+    - int-network                # todos na mesma rede interna do Compose
   healthcheck:
+    # "saudável" = o broker já responde a um comando administrativo básico
     test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
-    interval: 10s
-    timeout: 10s
-    retries: 12
-    start_period: 20s
+    interval: 10s                # verifica a cada 10s
+    timeout: 10s                 # espera no máximo 10s por uma resposta
+    retries: 12                  # até 12 falhas seguidas antes de marcar "unhealthy"
+    start_period: 20s            # tolera 20s de folga na inicialização, sem contar falha
   deploy:
     resources:
       limits:
-        memory: 1G
+        memory: 1G                # teto de memória por broker
       reservations:
-        memory: 512M
+        memory: 512M               # memória mínima reservada por broker
 
+# Variáveis de ambiente do Kafka, também comuns aos 3 brokers (o que muda por
+# broker - KAFKA_NODE_ID e KAFKA_ADVERTISED_LISTENERS - é definido depois,
+# dentro de cada serviço, sobrescrevendo/completando este bloco).
 x-kafka-env: &kafka-env
   CLUSTER_ID: ${KAFKA_CLUSTER_ID}                      # mesmo ID nos 3 nós
-  KAFKA_PROCESS_ROLES: broker,controller
+  KAFKA_PROCESS_ROLES: broker,controller               # cada nó acumula os dois papéis (modo KRaft)
+  # Lista de todos os controllers do quórum (id@host:porta), igual nos 3 brokers
   KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-1:9093,2@kafka-2:9093,3@kafka-3:9093
+  # Portas em que o broker escuta: 9092 para clientes/outros brokers, 9093 para o quórum de controllers
   KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-  KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
-  KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-  KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+  KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT  # sem criptografia/autenticação (ambiente de estudo)
+  KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT          # listener usado pelos brokers para conversar entre si
+  KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER          # listener usado só pelo quórum de controllers
   # Replicação dos tópicos internos e padrão dos tópicos
-  KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR}
-  KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR}
-  KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: ${KAFKA_MIN_ISR}
-  KAFKA_DEFAULT_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR}
-  KAFKA_MIN_INSYNC_REPLICAS: ${KAFKA_MIN_ISR}
-  KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 3000
+  KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR}          # réplicas do tópico interno de offsets dos consumidores
+  KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR}  # réplicas do tópico interno de transações
+  KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: ${KAFKA_MIN_ISR}                        # ISR mínimo desse mesmo tópico interno
+  KAFKA_DEFAULT_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR}                # replicação padrão para tópicos criados sem especificar
+  KAFKA_MIN_INSYNC_REPLICAS: ${KAFKA_MIN_ISR}                                  # ISR mínimo padrão
+  KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 3000         # espera 3s antes do 1º rebalanço de um grupo novo (agrupa consumidores subindo juntos)
   # O tópico é criado explicitamente pelo serviço kafka-init
-  KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-  KAFKA_HEAP_OPTS: -Xms256m -Xmx512m
+  KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"             # ninguém cria tópico "sem querer" só por publicar nele
+  KAFKA_HEAP_OPTS: -Xms256m -Xmx512m                   # limite de memória da JVM do próprio Kafka
 
+# ============================================================================
+# SERVIÇOS (os containers de verdade)
+# ============================================================================
 services:
+  # ---- Cluster Kafka: 3 brokers, cada um herdando os dois blocos acima ----
   kafka-1:
-    <<: *kafka-comum
-    hostname: kafka-1
+    <<: *kafka-comum                                   # importa image, networks, healthcheck, deploy
+    hostname: kafka-1                                  # nome de rede deste container
     environment:
-      <<: *kafka-env
-      KAFKA_NODE_ID: 1
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092
+      <<: *kafka-env                                   # importa todas as variáveis comuns
+      KAFKA_NODE_ID: 1                                 # identificador único deste broker no cluster
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092  # endereço que este broker anuncia aos clientes
     volumes:
-      - kafka-1-data:/var/lib/kafka/data
+      - kafka-1-data:/var/lib/kafka/data               # dados persistem entre reinícios (somem só com "down -v")
 
   kafka-2:
     <<: *kafka-comum
@@ -69,52 +85,55 @@ services:
     volumes:
       - kafka-3-data:/var/lib/kafka/data
 
-  # Cria o tópico dados-sensores (partições + replicação) e termina
+  # ---- Cria o tópico dados-sensores (partições + replicação) e termina ----
   kafka-init:
-    image: ${KAFKA_IMAGE}
-    restart: "no"
+    image: ${KAFKA_IMAGE}                              # mesma imagem do Kafka, só para rodar um comando administrativo
+    restart: "no"                                      # não reinicia depois de terminar (é para rodar 1 vez só)
     depends_on:
+      # só inicia depois que os 3 brokers passarem no healthcheck
       kafka-1: { condition: service_healthy }
       kafka-2: { condition: service_healthy }
       kafka-3: { condition: service_healthy }
     networks:
       - int-network
     environment:
-      BOOTSTRAP: kafka-1:9092,kafka-2:9092,kafka-3:9092
+      BOOTSTRAP: kafka-1:9092,kafka-2:9092,kafka-3:9092  # endereço dos 3 brokers, para o utilitário se conectar
       TOPICO: ${KAFKA_TOPIC}
       PARTICOES: ${KAFKA_PARTITIONS}
       REPLICACAO: ${KAFKA_REPLICATION_FACTOR}
       MIN_ISR: ${KAFKA_MIN_ISR}
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ["/bin/sh", "-c"]                      # troca o entrypoint padrão da imagem por um shell simples
     command:
       - |
+        # --if-not-exists: rodar de novo não dá erro nem recria o tópico (idempotente)
         /opt/kafka/bin/kafka-topics.sh --bootstrap-server $$BOOTSTRAP --create --if-not-exists \
           --topic $$TOPICO --partitions $$PARTICOES --replication-factor $$REPLICACAO \
           --config min.insync.replicas=$$MIN_ISR
+        # imprime o resultado nos logs, como conferência (líder/réplicas/ISR de cada partição)
         /opt/kafka/bin/kafka-topics.sh --bootstrap-server $$BOOTSTRAP --describe --topic $$TOPICO
 
-  # Sensores (produtores): cada réplica é um sensor diferente
+  # ---- Sensores (produtores): cada réplica é um sensor diferente ----
   sensor-producer:
-    build: ./producer-service
+    build: ./producer-service                          # constrói a imagem a partir do Dockerfile dessa pasta
     depends_on:
       kafka-init:
-        condition: service_completed_successfully
+        condition: service_completed_successfully       # só sobe depois que o tópico foi criado com sucesso
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092,kafka-2:9092,kafka-3:9092
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092,kafka-2:9092,kafka-3:9092  # os 3 brokers (tolera 1 fora do ar na conexão inicial)
       KAFKA_TOPIC: ${KAFKA_TOPIC}
-      INTERVALO_MS: ${INTERVALO_MS}
-      PROB_ANOMALIA: ${PROB_ANOMALIA}
-      SETORES: linha-producao,refrigeracao,empacotamento
-      JAVA_TOOL_OPTIONS: -Xms32m -Xmx128m
+      INTERVALO_MS: ${INTERVALO_MS}                     # de quanto em quanto tempo cada sensor gera uma leitura
+      PROB_ANOMALIA: ${PROB_ANOMALIA}                   # chance de uma leitura sair fora da faixa normal
+      SETORES: linha-producao,refrigeracao,empacotamento  # setores possíveis da fábrica (cada sensor cai em um)
+      JAVA_TOOL_OPTIONS: -Xms32m -Xmx128m               # limite de memória da JVM de cada sensor
     deploy:
-      replicas: ${SENSORES}
+      replicas: ${SENSORES}                             # quantidade de sensores (containers) que sobem
       resources:
         limits:
-          memory: 256M
+          memory: 256M                                  # teto de memória do container inteiro (JVM + SO mínimo)
     networks:
       - int-network
 
-  # Processadores (consumidores): todas as réplicas no mesmo grupo de consumo
+  # ---- Processadores (consumidores): todas as réplicas no mesmo grupo de consumo ----
   sensor-consumer:
     build: ./consumer-service
     depends_on:
@@ -123,28 +142,37 @@ services:
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092,kafka-2:9092,kafka-3:9092
       KAFKA_TOPIC: ${KAFKA_TOPIC}
-      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID}
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID}                 # mesmo grupo em todas as réplicas -> Kafka distribui as partições entre elas
       TEMP_MAX: ${TEMP_MAX}
       TEMP_CRITICA: ${TEMP_CRITICA}
       VIBRACAO_MAX: ${VIBRACAO_MAX}
       ENERGIA_MAX: ${ENERGIA_MAX}
-      ALERTAS_ARQUIVO: /logs/alertas.jsonl
+      ALERTAS_ARQUIVO: /logs/alertas.jsonl              # caminho, dentro do container, onde os alertas são gravados
       JAVA_TOOL_OPTIONS: -Xms32m -Xmx128m
     volumes:
-      - ./logs:/logs
+      - ./logs:/logs                                    # pasta logs/ do host compartilhada entre todas as réplicas
     deploy:
-      replicas: ${CONSUMIDORES}
+      replicas: ${CONSUMIDORES}                         # quantidade de consumidores (containers) que sobem
       resources:
         limits:
           memory: 256M
     networks:
       - int-network
 
+# ============================================================================
+# VOLUMES nomeados: onde cada broker persiste os dados em disco.
+# Sem isso, os dados do Kafka sumiriam toda vez que o container fosse recriado.
+# ============================================================================
 volumes:
   kafka-1-data:
   kafka-2-data:
   kafka-3-data:
 
+# ============================================================================
+# REDE: todos os serviços conversam entre si por aqui, usando o nome do
+# serviço como endereço (ex: "kafka-1", "kafka-2"). "bridge" é o tipo padrão
+# de rede isolada e privada que o Docker cria para um projeto Compose.
+# ============================================================================
 networks:
   int-network:
     driver: bridge
